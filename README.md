@@ -1,113 +1,91 @@
-# Brownessa - Site da Confeitaria
+# Brownessa — Site
 
-Site moderno e interativo para a confeitaria Brownessa, especializada em doces artesanais sob encomenda.
+Site institucional (one-page) da **Brownessa**, doceria artesanal especializada em
+brownies e brigadeiros sob encomenda. O objetivo é **captar clientes** e direcioná-los
+para o contato direto — **não há delivery por apps**; pedidos são feitos pelo
+**WhatsApp** e o perfil vive no **Instagram**.
 
-## 🍰 Características
+## 🍫 O que o site tem
 
-- **Design Moderno**: Interface elegante com cores baseadas na identidade visual da marca
-- **Efeitos de Scroll**: Animações suaves e interativas durante a navegação
-- **Responsivo**: Adaptado para todos os dispositivos (desktop, tablet, mobile)
-- **Seções Completas**: Sobre, Cardápio, Delivery e Contato
-- **Performance Otimizada**: Carregamento rápido e experiência fluida
+Single-page com rolagem vertical e animações suaves de reveal:
 
-## 🚀 Tecnologias Utilizadas
+1. **Hero** — nome da marca, espaço reservado para o logo e CTAs (WhatsApp + Instagram).
+2. **Sobre** — breve história/proposta da doceria.
+3. **Produtos** — vitrine dos doces (placeholder com emoji até ter fotos).
+4. **Galeria** — grid de fotos (mostra placeholders enquanto não houver fotos).
+5. **Depoimentos** — prova social.
+6. **Como encomendar** — passo a passo (deixa claro que é pedido direto, sem app).
+7. **Contato** — botões de WhatsApp e Instagram.
+8. **Botão flutuante de WhatsApp** sempre visível.
 
-- **React 18** - Framework principal
-- **Framer Motion** - Animações e efeitos de scroll
-- **React Intersection Observer** - Detecção de elementos na viewport
-- **CSS3** - Estilização avançada com gradientes e animações
-- **HTML5** - Estrutura semântica
+## 🛠️ Stack
 
-## 📦 Instalação
+- **Next.js 14** (App Router) + **React 18** + **TypeScript** (estrito)
+- **Tailwind CSS 3** — paleta marrom-chocolate + rosa-pastel + dourado
+- Fontes **Playfair Display** (títulos) e **Poppins** (texto), carregadas via `<link>`
+- 100% estático (SSG) — leve e rápido, hospedável em qualquer lugar (Vercel, Netlify, etc.)
 
-1. Clone o repositório:
-```bash
-git clone [url-do-repositorio]
-cd brownessa-site
+## ✏️ Como editar os dados da Brownessa
+
+Quase tudo que você precisa trocar está em **dois arquivos**, sem mexer no resto:
+
+| Arquivo | O que tem lá |
+|---|---|
+| `src/config/site.ts` | **WhatsApp** (número + mensagem pronta), **Instagram** (@), nome, tagline, região. Procure os comentários `// TODO`. |
+| `src/config/content.ts` | Textos do **Sobre**, lista de **produtos** (nome/descrição/preço), **passos** de encomenda, **depoimentos** e a lista da **galeria**. |
+
+### Trocar o número do WhatsApp
+Em `src/config/site.ts`, campo `whatsapp` — formato **só números**, com DDI 55:
+`(51) 99999-8888` → `"5551999998888"`.
+
+### Trocar o @ do Instagram
+Em `src/config/site.ts`, campo `instagram` — **sem** o `@`. Ex.: `"brownessa.doces"`.
+
+### Colocar o logo
+Há um **espaço reservado** marcado com comentário "espaço para o LOGO" em:
+- `src/components/Header.tsx` (topo)
+- `src/components/sections/Hero.tsx` (centro do hero)
+
+Coloque o arquivo em `public/` (ex.: `public/logo.png`) e troque o placeholder por:
+```tsx
+import Image from "next/image";
+<Image src="/logo.png" alt="Brownessa" width={160} height={160} priority />
 ```
 
-2. Instale as dependências:
+### Adicionar fotos (produtos / galeria)
+- **Produto com foto:** ponha a imagem em `public/produtos/` e preencha o campo `foto`
+  do produto em `content.ts` (ex.: `foto: "/produtos/brownie.jpg"`).
+- **Galeria:** ponha as fotos em `public/galeria/` e liste os caminhos no array
+  `galeria` em `content.ts`. Enquanto o array estiver vazio, aparecem placeholders.
+
+## 🚀 Rodar localmente
+
 ```bash
 npm install
+npm run dev      # http://localhost:3000
 ```
 
-3. Execute o projeto:
+Produção:
+
 ```bash
-npm start
+npm run build
+npm run start
 ```
 
-4. Acesse no navegador:
-```
-http://localhost:3000
-```
+## 🌐 Deploy
 
-## 🎨 Paleta de Cores
+Projeto estático — recomendado **Vercel** (deploy direto do GitHub, gratuito):
+1. Conectar o repositório `EduardoColissi/brownessa-site` na Vercel.
+2. Framework detectado automaticamente (Next.js). Sem variáveis de ambiente.
+3. Cada push na branch principal publica sozinho.
 
-A paleta de cores foi baseada no logo da Brownessa:
+## 📝 Notas técnicas
 
-- **Marrom Primário**: #8B4513
-- **Marrom Secundário**: #A0522D  
-- **Marrom Claro**: #D2B48C
-- **Creme**: #F5F5DC
-- **Dourado**: #DAA520
-- **Marrom Escuro**: #654321
-
-## 📱 Seções do Site
-
-### 🏠 Hero
-- Apresentação principal da marca
-- Call-to-action para o cardápio
-- Efeitos de paralaxe
-
-### ℹ️ Sobre
-- História da confeitaria
-- Processo de encomendas (4 passos)
-- Valores e diferenciais
-
-### 🍫 Cardápio
-- **Brigadeiros**: Tradicional, Gourmet, Nutella, Maracujá
-- **Brownies**: Tradicional, Nozes, Red Velvet, Doce de Leite
-- Preços individuais e por cento
-
-### 🚚 Delivery
-- Links para iFood e AnotaAí
-- Cards interativos com hover effects
-
-### 📞 Contato
-- WhatsApp: (11) 99999-9999
-- Email: contato@brownessa.com.br
-- Endereço: Rua dos Doces, 123 - São Paulo
-- Horário de funcionamento
-
-## 🛠️ Scripts Disponíveis
-
-- `npm start` - Executa em modo de desenvolvimento
-- `npm run build` - Cria build de produção
-- `npm test` - Executa testes
-- `npm run eject` - Remove abstrações do Create React App
-
-## 📈 Próximas Melhorias
-
-- [ ] Integração com WhatsApp Business API
-- [ ] Sistema de pedidos online
-- [ ] Galeria de fotos dos produtos
-- [ ] Blog com receitas e dicas
-- [ ] Sistema de avaliações de clientes
-
-## 🤝 Contribuição
-
-Para contribuir com o projeto:
-
-1. Faça um fork
-2. Crie uma branch (`git checkout -b feature/nova-funcionalidade`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
----
-
-Desenvolvido com ❤️ para a Brownessa Confeitaria
+- **Fontes via `<link>`** em vez de `next/font/google`: evita falha de build atrás de
+  proxy/certificado corporativo (o `next/font` baixa as fontes em tempo de build).
+- **Animações de scroll** (`Reveal.tsx`) usam progressive enhancement: o conteúdo
+  sempre renderiza visível por padrão e a animação só entra quando o JS está ativo —
+  nada some se o JavaScript falhar.
+- **Next 14.2.35** (patch de segurança aplicado). Os avisos restantes do `npm audit`
+  pedem upgrade para Next 16 (breaking) e não afetam um site estático sem Image
+  Optimizer remoto, rewrites ou RSC com deserialização — fora de escopo aqui.

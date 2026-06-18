@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-cream text-choco-800 font-body antialiased;
+}
+
+/* Reveal on scroll — progressive enhancement.
+   Sem JS (SSR / antes de hidratar), o conteúdo aparece normalmente.
+   Só escondemos quando a classe .js-reveal foi aplicada pelo componente,
+   garantindo que nada some se o observer não disparar. */
+.reveal.js-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out;
+}
+
+.reveal.js-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal.js-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Textura suave de fundo (pontilhado discreto) */
+.bg-dots {
+  background-image: radial-gradient(
+    rgba(139, 90, 43, 0.08) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+}
